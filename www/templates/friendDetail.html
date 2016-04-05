@@ -1,0 +1,13 @@
+<ion-view view-title="Detail">
+  <ion-nav-buttons side="right" >
+    <button class="button" ng-click="editFriend(friend.id) ">
+      <i class="icon ion-edit"></i> Edit
+    </button>
+  </ion-nav-buttons>
+  <ion-content >
+    <ion-item class="item item-image circles" >
+    <img class="" ng-src="{{friend.avatar}}">
+    </ion-item>
+    Details {{friend.name}}
+  </ion-content>
+</ion-view>

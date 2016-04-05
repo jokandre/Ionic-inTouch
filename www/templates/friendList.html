@@ -1,0 +1,33 @@
+<ion-view view-title="inTouch">
+  <ion-content>
+    <ion-list can-swipe="listCanSwipe">
+      <ion-item ng-repeat="friend in friendList" class="item friend-item
+      item-icon-right item-remove-animate item-avatar ">
+      <img ng-src="{{friend.avatar}}">
+        <a href="#/friendDetail/{{friend.id}}" class=" list-a">
+          <!--ion-avatar item-left class="item-avatar">
+          </ion-avatar-->
+
+
+          <h2>{{friend.name}}</h2>
+          <p>
+            inTouch <span am-time-ago="friend.lastcontacted"></span>
+          </p>
+        </a>
+        <i ng-class="{'icon ion-ios-star energized': liked,
+        'icon ion-ios-star-outline': !liked}" ng-click="liked =!liked ; updateFriend(friend)"></i>
+        <!--button class="button " ng-click="updatelastcontacted()">
+          <i class="icon ion-ios-heart-outline"></i>
+        </button-->
+        <ion-option-button class="button-assertive icon-left ion-ios-trash" ng-click="deleteFriend(friend.id)">
+          Delete
+        </ion-option-button>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+  <button class="round-overlay-button bottom-right button positive
+  button-icon icon ion-ios7-search-strong light" ng-click="openModal()">
+    <i class="icon ion-plus"></i>
+  </button>
+
+</ion-view>

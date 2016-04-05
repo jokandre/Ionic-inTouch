@@ -1,0 +1,33 @@
+<ion-modal-view>
+  <ion-header-bar class="bar bar-header bar-balanced">
+    <h1 class="title">New Close Friend</h1>
+    <button class="button button-clear button-primary" ng-click="closeModal()">Cancel</button>
+  </ion-header-bar>
+  <ion-content>
+    <div class="card">
+      <ion-item class="item item-image circles" ng-click="changeAvatar(avatar.id)">
+      <img class="" ng-src="{{avatar.link}}">
+      </ion-item>
+      <label class="item item-input">
+        <span class="input-label">Name</span>
+        <input ng-model="newFriend.name" type="text">
+      </label>
+      <label class="item item-input">
+        <span class="input-label">Nick Name</span>
+        <input ng-model="newFriend.nickname" placeholder="ie. bad-boy" type="text">
+      </label>
+<!--
+      <label class="item item-input">
+        <span class="input-label">Email</span>
+        <input ng-model="newUser.email" type="text">
+      </label>
+-->
+    </div>
+
+    <div class="padding">
+      <div class="button-bar">
+        <button class="button  button-balanced" ng-click="createFriend(newFriend)">Create</button>
+      </div>
+    </div>
+  </ion-content>
+</ion-modal-view>

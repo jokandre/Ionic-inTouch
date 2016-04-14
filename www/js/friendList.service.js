@@ -7,19 +7,19 @@
   			id: '1',
   			name: 'Shao Lin',
   			status: 'waiting',
-        avatar: 'http://api.adorable.io/avatars/face/eyes1/nose10/mouth9/70bBC4',
+        avatar: 'https://api.adorable.io/avatars/500/aaa',
         lastcontacted: moment('2016-03-23', 'YYYY-MM-DD')
   		}, {
   			id: '2',
   			name: 'Ana Rita',
   			status: 'waiting',
-        avatar: 'http://api.adorable.io/avatars/face/eyes1/nose10/mouth9/70bBC4',
+        avatar: 'http://api.adorable.io/avatar/500/2',
         lastcontacted: moment('2016-03-08', 'YYYY-MM-DD')
   		}, {
   			id: '3',
   			name: 'Joao Pedro',
   			status: 'waiting',
-        avatar: 'http://api.adorable.io/avatars/face/eyes1/nose10/mouth9/70bBC4',
+        avatar: 'http://api.adorable.io/avatar/500/3',
         lastcontacted: moment('2016-04-01', 'YYYY-MM-DD')
   		}];
 

@@ -1,6 +1,7 @@
 (function () {
-	var app = angular.module('inTouch', ['ionic', 'angularMoment']);
-	app.run(function ($ionicPlatform) {
+	var db = null;
+	var app = angular.module('inTouch', ['ionic', 'angularMoment', 'ngCordova']);
+	app.run(function ($ionicPlatform, $cordovaSQLite) {
 		$ionicPlatform.ready(function () {
 			if(window.cordova && window.cordova.plugins.Keyboard) {
 				cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
@@ -9,6 +10,11 @@
 			if(window.StatusBar) {
 				StatusBar.styleDefault();
 			}
+			db = $cordovaSQLite.openDB({
+				name: 'app.db',
+				location: 'default'
+			});
+			$cordovaSQLite.execute(db, "CREATE TABLE IF NOT EXISTS people (id integer primary key, firstname text, lastname text)");
 		});
 	});
 
@@ -35,7 +41,7 @@
 		$urlRouterProvider.otherwise('/friendList');
 	});
 
-	app.controller('FriendListController', function ($scope, $state, friendListService, avatarService, $ionicModal) {
+	app.controller('FriendListController', function ($scope, $state, $cordovaSQLite, friendListService, avatarService, $ionicModal) {
 		$scope.listCanSwipe = true;
 		$scope.friendList = friendListService.getSortedList();
 		$scope.avatar = angular.copy(avatarService.getRandomAvatar());
@@ -44,6 +50,7 @@
 			nickname: '',
 			avatar: ''
 		};
+
 
 		$scope.updateFriend = function (friend) {
 			// friend.lastcontacted = moment();
@@ -85,11 +92,32 @@
 			$scope.closeModal();
 		};
 
+		$scope.insert = function (firstname, lastname) {
+			var query = "INSERT INTO people (firstname, lastname) VALUES (?,?)";
+			$cordovaSQLite.execute(db, query, [firstname, lastname]).then(function (result) {
+				console.log("INSERT ID -> " + result.insertId);
+			}, function (error) {
+				console.error(error);
+			});
+		};
+		$scope.select = function (lastname) {
+			var query = "SELECT firstname, lastname FROM people WHERE lastname = ?";
+			$cordovaSQLite.execute(db, query, [lastname]).then(function (result) {
+				if(result.rows.length > 0) {
+					console.log("SELECTED -> " + result.rows.item(0).firstname + " " + result.rows.item(0).lastname);
+				} else {
+					console.log("NO ROWS EXIST");
+				}
+			}, function (error) {
+				console.error(error);
+			});
+		};
+
 	});
 
-	app.controller('AddController', function ($scope, $state, friendListService) {
-
-	});
+	// app.controller('AddController', function ($scope, $state, friendListService) {
+	//
+	// });
 
 	app.controller('EditController', function ($scope, $state, friendListService) {
 		$scope.friend = angular.copy(friendListService.getFriend($state.params.friendId));

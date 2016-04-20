@@ -10,7 +10,7 @@
 			if(window.StatusBar) {
 				StatusBar.styleDefault();
 			}
-			db = $cordovaSQLite.openDB({
+			db = $cordovaSQLite./({
 				name: 'app.db',
 				location: 'default'
 			});

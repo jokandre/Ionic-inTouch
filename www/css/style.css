@@ -10,8 +10,8 @@ a:link {
 }
 /* List animation */
 .friend-item.ng-enter {
-    -webkit-animation: fadeInLeft 1s;
-    animation: fadeInLeft 1s;
+    -webkit-animation: fadeInLeft 0.3s;
+    animation: fadeInLeft 0.3s;
 }
 .friend-item.ng-enter-stagger {
   -webkit-animation-delay:200ms;

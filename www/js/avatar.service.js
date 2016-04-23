@@ -23,6 +23,22 @@
       {
         id: '5',
   			link: 'http://api.adorable.io/avatars/face/eyes6/nose4/mouth9/70bBC4',
+  		},
+      {
+        id: '6',
+  			link: 'https://api.adorable.io/avatars/450/aaa',
+  		},
+      {
+        id: '7',
+  			link: 'http://api.adorable.io/avatar/450/2',
+  		},
+      {
+        id: '8',
+  			link: 'http://api.adorable.io/avatar/450/3',
+  		},
+      {
+        id: '9',
+  			link: 'https://api.adorable.io/avatars/500/g',
   		}];
 /*
       function indexOf(id){

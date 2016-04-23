@@ -1,13 +1,26 @@
 <ion-view view-title="Detail">
-  <ion-nav-buttons side="right" >
+  <ion-nav-buttons side="right">
     <button class="button" ng-click="editFriend(friend.id) ">
       <i class="icon ion-edit"></i> Edit
     </button>
   </ion-nav-buttons>
-  <ion-content >
-    <ion-item class="item item-image circles" >
-    <img class="" ng-src="{{friend.avatar}}">
+  <ion-content>
+    <br>
+    <ion-item class="item item-image circle">
+      <img class="" ng-src="{{friend.avatar}}">
     </ion-item>
-    Details {{friend.name}}
+
+    <div class="list card">
+      <a href="#" class="item item-icon-left">
+        <i class="icon ion-android-person"></i> {{friend.name}}
+      </a>
+
+      <a href="#" class="item item-icon-left">
+        <i class="icon ion-android-calendar"></i> {{friend.lastcontacted  | amCalendar:referenceTime:formats}}
+      </a>
+    </div>
+    <!--<ion-item><i class="icon ion-home"></i> {{friend.name}}</ion-item>
+      <ion-item><i class="icon ion-ios-telephone"></i> {{friend.lastcontacted}}</ion-item>
+    </ion-item>-->
   </ion-content>
 </ion-view>

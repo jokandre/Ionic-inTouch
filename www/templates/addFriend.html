@@ -6,17 +6,24 @@
   <ion-content>
     <div class="card">
       <ion-item class="item item-image circles" ng-click="changeAvatar(avatar.id)">
-      <img class="" ng-src="{{avatar.link}}">
+        <img class="" style="/*height:200px;width:200px*/" ng-src="{{avatar.link}}">
       </ion-item>
       <label class="item item-input">
         <span class="input-label">Name</span>
         <input ng-model="newFriend.name" type="text">
       </label>
+      <ion-toggle ng-model="isNotification" toggle-class="toggle-calm">Notification</ion-toggle>
+      <ion-item ng-if="isNotification">
+        <label class="item item-input">
+        <span>Notify in: </span><input ng-model="newFriend.notifyIn" type="number"><span>{{newFriend.notifyIn}} seconds</span>
+      </label>
+      </ion-item>
+      <!--
       <label class="item item-input">
         <span class="input-label">Nick Name</span>
         <input ng-model="newFriend.nickname" placeholder="ie. bad-boy" type="text">
       </label>
-<!--
+
       <label class="item item-input">
         <span class="input-label">Email</span>
         <input ng-model="newUser.email" type="text">

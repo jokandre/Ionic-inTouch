@@ -2,12 +2,11 @@
   <ion-content>
     <ion-list can-swipe="listCanSwipe">
       <ion-item ng-repeat="friend in friendList" class="item friend-item
-      item-icon-right item-remove-animate item-avatar ">
+      item-icon-right item-avatar ">
       <img ng-src="{{friend.avatar}}">
         <a href="#/friendDetail/{{friend.id}}" class=" list-a">
           <!--ion-avatar item-left class="item-avatar">
           </ion-avatar-->
-
 
           <h2>{{friend.name}}</h2>
           <p>
@@ -15,18 +14,15 @@
           </p>
         </a>
         <i ng-class="{'icon ion-ios-star energized': liked,
-        'icon ion-ios-star-outline': !liked}" ng-click="liked =!liked ; updateFriend(friend)"></i>
+        'icon ion-ios-star-outline': !liked}" ng-click="liked =!liked ; editFriend(friend)"></i>
         <!--button class="button " ng-click="updatelastcontacted()">
           <i class="icon ion-ios-heart-outline"></i>
         </button-->
-        <ion-option-button class="button-assertive icon-left ion-ios-trash" ng-click="deleteFriend(friend.id)">
+        <ion-option-button class="button-assertive icon-left ion-ios-trash" ng-click="deleteFriend(friend)">
           Delete
         </ion-option-button>
       </ion-item>
     </ion-list>
-    <button class="button" ng-click="insert('Joka', 'Andre')">Insert</button>
-    <button class="button" ng-click="select( 'Andre')">Select</button>
-    {{alert}}
   </ion-content>
   <button class="round-overlay-button bottom-right button positive
   button-icon icon ion-ios7-search-strong light" ng-click="openModal()">

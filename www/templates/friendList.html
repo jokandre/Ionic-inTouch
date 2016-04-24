@@ -8,9 +8,9 @@
           <!--ion-avatar item-left class="item-avatar">
           </ion-avatar-->
 
-          <h2>{{friend.name}}</h2>
+          <h2>{{friend.name}} </h2>
           <p>
-            inTouch <span am-time-ago="friend.lastcontacted"></span>
+            Last Contacted <span am-time-ago="friend.lastcontacted"></span>
           </p>
         </a>
         <i ng-class="{'icon ion-ios-star energized': liked,
@@ -18,7 +18,8 @@
         <!--button class="button " ng-click="updatelastcontacted()">
           <i class="icon ion-ios-heart-outline"></i>
         </button-->
-        <ion-option-button class="button-assertive icon-left ion-ios-trash" ng-click="deleteFriend(friend)">
+        <ion-option-button class="button-assertive icon-left ion-ios-trash"
+        ng-click="deleteFriend(friend)">
           Delete
         </ion-option-button>
       </ion-item>

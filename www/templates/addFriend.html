@@ -10,30 +10,21 @@
       </ion-item>
       <label class="item item-input">
         <span class="input-label">Name</span>
-        <input ng-model="newFriend.name" type="text">
+        <input ng-model="newFriend.name" type="text" placeholder="nickname">
       </label>
-      <ion-toggle ng-model="isNotification" toggle-class="toggle-calm">Notification</ion-toggle>
-      <ion-item ng-if="isNotification">
-        <label class="item item-input">
-        <span>Notify in: </span><input ng-model="newFriend.notifyIn" type="number"><span>{{newFriend.notifyIn}} seconds</span>
+      <ion-toggle ng-model="isNotified" toggle-class="toggle-calm">Notification</ion-toggle>
+      <label ng-if="isNotified">
+        <ion-list>
+          <ion-radio  ng-repeat="option in notificationOptions"
+          ng-model="newFriend.notifyEvery" ng-value="option.value">
+            <i class="icon ion-ios-bell"></i> {{option.text}}
+          </ion-radio>
+        </ion-list>
       </label>
-      </ion-item>
-      <!--
-      <label class="item item-input">
-        <span class="input-label">Nick Name</span>
-        <input ng-model="newFriend.nickname" placeholder="ie. bad-boy" type="text">
-      </label>
-
-      <label class="item item-input">
-        <span class="input-label">Email</span>
-        <input ng-model="newUser.email" type="text">
-      </label>
--->
     </div>
-
     <div class="padding">
       <div class="button-bar">
-        <button class="button  button-balanced" ng-click="createFriend(newFriend)">Create</button>
+        <button class="button  button-balanced" ng-click="createFriend(isNotified, newFriend)">Create</button>
       </div>
     </div>
   </ion-content>

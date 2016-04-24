@@ -1,7 +1,7 @@
 //(function () {
 var db = null;
 var app = angular.module('inTouch', ['ionic', 'angularMoment', 'ngCordova']);
-app.run(function ($ionicPlatform, $cordovaSQLite) {
+app.run(function ($ionicPlatform, $cordovaSQLite, notificationService) {
 	$ionicPlatform.ready(function () {
 		if(window.cordova && window.cordova.plugins.Keyboard) {
 			cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
@@ -10,11 +10,12 @@ app.run(function ($ionicPlatform, $cordovaSQLite) {
 		if(window.StatusBar) {
 			StatusBar.styleDefault();
 		}
-		window.plugin.notification.local.on("trigger", function(notification) {
-			alert("triggered: " + notification);
-		});
 
 		if(window.cordova) {
+			window.plugin.notification.local.on("trigger", function (notification) {
+				notificationService.reschedule(notification);
+			});
+
 			db = $cordovaSQLite.openDB({
 				name: 'app.db',
 				location: 'default'
@@ -24,7 +25,9 @@ app.run(function ($ionicPlatform, $cordovaSQLite) {
 			db = window.openDatabase("app.db", "1.0", "My app", -1);
 		}
 		//$cordovaSQLite.execute(db,"DROP TABLE friendGroup");
-		$cordovaSQLite.execute(db, "CREATE TABLE  IF NOT EXISTS friendGroup (id integer primary key, name text, avatar text, lastcontacted text, lastcontactedUnix timestamp, nextnotificationUnix timestamp)");
+		$cordovaSQLite.execute(db, "CREATE TABLE  IF NOT EXISTS friendGroup " +
+			"(id integer primary key, name text, avatar text, lastcontacted text, " +
+			"lastcontactedUnix timestamp, nextnotificationUnix timestamp, notifyEvery interger)");
 	});
 });
 
@@ -59,8 +62,15 @@ app.controller('FriendListController', function ($scope, $state, $ionicModal,
 	$scope.newFriend = {
 		name: '',
 		avatar: '',
-		notifyIn: null
+		notifyEvery: null
 	};
+	$scope.notificationOptions = [{
+		text: "Every minute",
+		value: "1"
+	}, {
+		text: "Every 2 minutes",
+		value: "2"
+	}];
 
 	$scope.sortByDateDesc = function (a, b) {
 		a = a.lastcontactedUnix;
@@ -77,14 +87,20 @@ app.controller('FriendListController', function ($scope, $state, $ionicModal,
 	$scope.editFriend = function (friend) {
 		friend.lastcontactedUnix = moment().unix();
 		friend.lastcontacted = moment().format();
-		friend.nextnotificationUnix = moment().add(30, 'seconds').unix();
-		notificationService.reschedule(friend.id, friend);
-
+		if(friend.notifyEvery !== null) {
+			friend.nextnotificationUnix = moment().add(friend.notifyEvery, 'minutes').unix();
+			if(window.cordova) {
+				notificationService.update(friend.id, friend);
+			}
+		}
 		FriendGroup.update(friend);
 		$scope.updateFriendList();
 	};
 	$scope.deleteFriend = function (friend) {
 		FriendGroup.remove(friend);
+		if(friend.notifyEvery !== null) {
+			notificationService.cancel(friend);
+		}
 		$scope.updateFriendList();
 	};
 
@@ -104,12 +120,12 @@ app.controller('FriendListController', function ($scope, $state, $ionicModal,
 		$scope.newFriend = {
 			name: '',
 			avatar: '',
-			notifyIn: null
+			notifyEvery: null
 		};
 		$scope.modal.hide();
 	};
 
-	$scope.createFriend = function (friend) {
+	$scope.createFriend = function (notified, friend) {
 		/*
 		name
 		avatar
@@ -120,13 +136,18 @@ app.controller('FriendListController', function ($scope, $state, $ionicModal,
 		friend.avatar = angular.copy($scope.avatar.link);
 		friend.lastcontacted = moment().format();
 		friend.lastcontactedUnix = moment().unix();
-		friend.nextnotificationUnix = moment().add(friend.notifyIn, 'seconds').unix();
+		if(!notified) {
+			friend.notifyEvery = null;
+			friend.nextnotificationUnix = null;
+		} else {
+			friend.nextnotificationUnix = moment().add(friend.notifyEvery, 'minutes').unix();
+		}
 
-		//var notificationId = null;
 		FriendGroup.add(friend).then(function (result) {
-			//notificationId = result.insertId;
-			if(friend.notifyIn && window.cordova) {
+			if(friend.notifyEvery && window.cordova) {
 				notificationService.new(result.insertId, friend);
+			} else if(friend.notifyEvery === null && window.cordova) {
+				console.log('Mobile: Notification not activated');
 			} else {
 				console.log('Browser: Notification not available');
 			}

@@ -25,7 +25,6 @@
 		// Process a result set
 		self.getAll = function (result) {
 			var output = [];
-
 			for(var i = 0; i < result.rows.length; i++) {
 				output.push(result.rows.item(i));
 			}
@@ -46,7 +45,9 @@
 		var self = this;
 
 		self.all = function () {
-			return DBA.query("SELECT id, name, avatar, lastcontacted, lastcontactedUnix, nextnotificationUnix FROM friendGroup")
+			return DBA.query(
+				"SELECT id, name, avatar, lastcontacted, lastcontactedUnix, "+
+				"nextnotificationUnix, notifyEvery FROM friendGroup")
 				.then(function (result) {
 					return DBA.getAll(result);
 				});
@@ -54,7 +55,8 @@
 
 		self.get = function (memberId) {
 			var parameters = [memberId];
-			return DBA.query("SELECT id, name, avatar,lastcontacted, lastcontactedUnix, nextnotificationUnix FROM friendGroup WHERE id = (?)", parameters)
+			return DBA.query("SELECT id, name, avatar,lastcontacted, lastcontactedUnix,"+
+			" nextnotificationUnix, notifyEvery FROM friendGroup WHERE id = (?)", parameters)
 				.then(function (result) {
           //console.log("result:",result);
 					return DBA.getById(result);
@@ -62,8 +64,9 @@
 		};
 
 		self.add = function (member) {
-			var parameters = [member.name, member.avatar, member.lastcontacted, member.lastcontactedUnix, member.nextnotificationUnix];
-			return DBA.query("INSERT INTO friendGroup ( name, avatar, lastcontacted,lastcontactedUnix, nextnotificationUnix) VALUES (?,?,?,?,?)", parameters);
+			var parameters = [member.name, member.avatar, member.lastcontacted,
+				 member.lastcontactedUnix, member.nextnotificationUnix, member.notifyEvery];
+			return DBA.query("INSERT INTO friendGroup ( name, avatar, lastcontacted,lastcontactedUnix, nextnotificationUnix, notifyEvery) VALUES (?,?,?,?,?,?)", parameters);
 		};
 
 		self.remove = function (member) {
@@ -72,8 +75,8 @@
 		};
 
 		self.update = function (editMember) {
-			var parameters = [editMember.name, editMember.lastcontacted, editMember.lastcontactedUnix, editMember.nextnotificationUnix, editMember.id];
-			return DBA.query("UPDATE friendGroup SET name = (?),lastcontacted = (?), lastcontactedUnix = (?), nextnotificationUnix =(?) WHERE id = (?)", parameters);
+			var parameters = [editMember.name, editMember.lastcontacted, editMember.lastcontactedUnix, editMember.nextnotificationUnix, editMember.notifyEvery, editMember.id];
+			return DBA.query("UPDATE friendGroup SET name = (?),lastcontacted = (?), lastcontactedUnix = (?), nextnotificationUnix =(?), notifyEvery =(?) WHERE id = (?)", parameters);
 		};
 
 		return self;

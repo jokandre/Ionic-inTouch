@@ -12,11 +12,25 @@
 
     <div class="list card">
       <a href="#" class="item item-icon-left">
-        <i class="icon ion-android-person"></i> {{friend.name}}
+        <i class="icon ion-android-person"></i>
+        {{friend.name}}
       </a>
 
       <a href="#" class="item item-icon-left">
-        <i class="icon ion-android-calendar"></i> {{friend.lastcontacted  | amCalendar:referenceTime:formats}}
+        <i class="icon ion-android-calendar"></i>
+        Last contacted <span>{{friend.lastcontacted  | amCalendar:referenceTime:formats}}</span>
+      </a>
+
+      <a href="#" class="item item-icon-left" ng-if="friend.notifyEvery === 1">
+        <i class="icon ion-ios-bell"></i> Every week
+      </a>
+      <a href="#" class="item item-icon-left" ng-if="friend.notifyEvery > 1">
+        <i class="icon ion-ios-bell"></i> Every {{friend.notifyEvery}} weeks
+      </a>
+
+      <a href="#" class="item item-icon-left" ng-if="friend.nextnotificationUnix !== null">
+        <i class="icon ion-ios-bell"></i> Next
+        <span>{{friend.nextnotificationUnix  | amFromUnix | amDateFormat:'dddd, MMMM Do, HH:mm'}}</span>
       </a>
     </div>
     <!--<ion-item><i class="icon ion-home"></i> {{friend.name}}</ion-item>

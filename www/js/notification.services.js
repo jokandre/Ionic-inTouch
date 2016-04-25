@@ -13,7 +13,8 @@
 				every:'month',
 				led: '000fff'
 			}).then(function (result) {
-				console.log('Name:' + friend.name + ', Notification scheduled for ' + moment.unix(friend.nextnotificationUnix).format());
+				console.log('Name:' + friend.name + ', Notification scheduled for ' +
+				moment.unix(friend.nextnotificationUnix).format());
 			});
 		};
 
@@ -25,7 +26,8 @@
 						id: fid,
 						at: friend.nextnotificationUnix * 1000,
 					}).then(function (result) {
-						console.log('Updated:' + friend.name + ' ' + moment.unix(friend.nextnotificationUnix).format());
+						console.log('Updated:' + friend.name + ' ' +
+						moment.unix(friend.nextnotificationUnix).format());
 					});
 				} else {
 					alert(fid + " Not Found");
@@ -36,7 +38,7 @@
 		self.reschedule = function (oldNotification) {
 			FriendGroup.get(oldNotification.id).then(function (friend) {
 				if(friend.notifyEvery !== null) {
-					friend.nextnotificationUnix = moment().add(friend.notifyEvery, 'minutes').unix();
+					friend.nextnotificationUnix = moment().add(friend.notifyEvery, 'weeks').unix();
 					self.new(friend.id, friend);
 					FriendGroup.update(friend);
 				}

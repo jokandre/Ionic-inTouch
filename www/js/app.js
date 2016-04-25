@@ -65,11 +65,14 @@ app.controller('FriendListController', function ($scope, $state, $ionicModal,
 		notifyEvery: null
 	};
 	$scope.notificationOptions = [{
-		text: "Every minute",
+		text: "Every week",
 		value: "1"
 	}, {
-		text: "Every 2 minutes",
+		text: "Every 2 weeks",
 		value: "2"
+	},{
+		text: "Every 4 weeks",
+		value: "4"
 	}];
 
 	$scope.sortByDateDesc = function (a, b) {
@@ -88,7 +91,7 @@ app.controller('FriendListController', function ($scope, $state, $ionicModal,
 		friend.lastcontactedUnix = moment().unix();
 		friend.lastcontacted = moment().format();
 		if(friend.notifyEvery !== null) {
-			friend.nextnotificationUnix = moment().add(friend.notifyEvery, 'minutes').unix();
+			friend.nextnotificationUnix = moment().add(friend.notifyEvery, 'weeks').unix();
 			if(window.cordova) {
 				notificationService.update(friend.id, friend);
 			}
@@ -140,7 +143,7 @@ app.controller('FriendListController', function ($scope, $state, $ionicModal,
 			friend.notifyEvery = null;
 			friend.nextnotificationUnix = null;
 		} else {
-			friend.nextnotificationUnix = moment().add(friend.notifyEvery, 'minutes').unix();
+			friend.nextnotificationUnix = moment().add(friend.notifyEvery, 'weeks').unix();
 		}
 
 		FriendGroup.add(friend).then(function (result) {
